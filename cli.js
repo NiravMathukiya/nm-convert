@@ -4,18 +4,16 @@ const fs = require('fs');
 const path = require('path');
 
 // Get input JSON file and output file name from command line arguments
-const inputFilePath = process.argv[2];  // First argument is the input JSON file
-const outputFilePath = process.argv[3] || 'globals.css'; // Second argument is the output file (defaults to 'globals.css' if not provided)
+const inputFilePath = process.argv[2];
+const outputFilePath = process.argv[3] || 'globals.css';
 
 if (!inputFilePath) {
     console.error('Please provide the path to the input JSON file.');
     process.exit(1);
 }
 
-// Read input JSON file
 const data = JSON.parse(fs.readFileSync(inputFilePath, 'utf8'));
 
-// Function to generate color utility classes
 function generateColorClasses(colorValue, prefix, suffix) {
     return `
     .bg-${prefix}${suffix} { background-color: ${colorValue}; }
@@ -25,7 +23,6 @@ function generateColorClasses(colorValue, prefix, suffix) {
   `;
 }
 
-// Function to handle colors and generate CSS classes for each shade
 function handleColors(colors, namePrefix = '') {
     let cssOutput = '';
 
@@ -33,10 +30,8 @@ function handleColors(colors, namePrefix = '') {
         const colorObj = colors[colorName];
 
         if (typeof colorObj === 'string') {
-            // If it's just a single color value (not an object), handle it directly
             cssOutput += generateColorClasses(colorObj, namePrefix, colorName);
         } else {
-            // If it's an object with shades, loop through each shade
             for (const shade in colorObj) {
                 if (shade === 'DEFAULT') {
                     cssOutput += generateColorClasses(colorObj[shade], namePrefix, colorName);
@@ -50,7 +45,6 @@ function handleColors(colors, namePrefix = '') {
     return cssOutput;
 }
 
-// Function to handle images (backgroundImage and gradient)
 function handleImages(imageConfig) {
     let cssOutput = '';
 
@@ -65,7 +59,6 @@ function handleImages(imageConfig) {
     return cssOutput;
 }
 
-// Function to handle opacity
 function handleOpacity(opacityConfig) {
     let cssOutput = '';
 
@@ -76,7 +69,6 @@ function handleOpacity(opacityConfig) {
     return cssOutput;
 }
 
-// Function to handle boxShadow
 function handleBoxShadow(boxShadowConfig) {
     let cssOutput = '';
 
@@ -87,7 +79,6 @@ function handleBoxShadow(boxShadowConfig) {
     return cssOutput;
 }
 
-// Function to handle borderRadius
 function handleBorderRadius(borderRadiusConfig) {
     let cssOutput = '';
 
@@ -98,7 +89,6 @@ function handleBorderRadius(borderRadiusConfig) {
     return cssOutput;
 }
 
-// Function to handle fontSize
 function handleFontSize(fontSizeConfig) {
     let cssOutput = '';
 
@@ -109,7 +99,6 @@ function handleFontSize(fontSizeConfig) {
     return cssOutput;
 }
 
-// Function to handle height and width
 function handleDimensions(dimConfig, type) {
     let cssOutput = '';
 
@@ -120,7 +109,6 @@ function handleDimensions(dimConfig, type) {
     return cssOutput;
 }
 
-// Function to handle zIndex
 function handleZIndex(zIndexConfig) {
     let cssOutput = '';
 
@@ -131,20 +119,18 @@ function handleZIndex(zIndexConfig) {
     return cssOutput;
 }
 
-// Function to handle screens
 function handleScreens(screensConfig) {
     let cssOutput = '';
 
     for (const key in screensConfig) {
         cssOutput += `\n@media (min-width: ${screensConfig[key]}) {
-          .screen-${key} { display: block; }
-        }\n`;
+  .screen-${key} { display: block; }
+}\n`;
     }
 
     return cssOutput;
 }
 
-// Function to handle transitions and animations
 function handleTransitionsAndAnimations(config, type) {
     let cssOutput = '';
 
@@ -155,19 +141,16 @@ function handleTransitionsAndAnimations(config, type) {
     return cssOutput;
 }
 
-// Function to handle ring
 function handleRing(ringConfig) {
     let cssOutput = '';
 
     for (const key in ringConfig) {
-        const colorValue = ringConfig[key];
-        cssOutput += `\n.ring-${key} { outline: ${colorValue}; }\n`;
+        cssOutput += `\n.ring-${key} { outline: ${ringConfig[key]}; }\n`;
     }
 
     return cssOutput;
 }
 
-// Function to handle spacing (margin and padding)
 function handleSpacing(spacingConfig, type) {
     let css = '';
     const directions = ['', 'x', 'y', 't', 'r', 'b', 'l'];
@@ -196,49 +179,25 @@ function handleSpacing(spacingConfig, type) {
     return css;
 }
 
-// Create the CSS file
+// Create CSS content
 let cssContent = '/* Generated CSS from JSON configuration */\n';
 
-// Handle colors
-cssContent += handleColors(data.colors);
+if (data.colors) cssContent += handleColors(data.colors);
+if (data.image) cssContent += handleImages(data.image);
+if (data.opacity) cssContent += handleOpacity(data.opacity);
+if (data.boxShadow) cssContent += handleBoxShadow(data.boxShadow);
+if (data.borderRadius) cssContent += handleBorderRadius(data.borderRadius);
+if (data.fontSize) cssContent += handleFontSize(data.fontSize);
+if (data.height) cssContent += handleDimensions(data.height, 'height');
+if (data.width) cssContent += handleDimensions(data.width, 'width');
+if (data.zIndex) cssContent += handleZIndex(data.zIndex);
+if (data.screens) cssContent += handleScreens(data.screens);
+if (data.ring) cssContent += handleRing(data.ring);
+if (data.transition) cssContent += handleTransitionsAndAnimations(data.transition, 'transition');
+if (data.animation) cssContent += handleTransitionsAndAnimations(data.animation, 'animation');
+if (data.margin) cssContent += '\n' + handleSpacing(data.margin, 'margin');
+if (data.padding) cssContent += '\n' + handleSpacing(data.padding, 'padding');
 
-// Handle images (backgroundImage, gradient)
-cssContent += handleImages(data.image);
-
-// Handle opacity values
-cssContent += handleOpacity(data.opacity);
-
-// Handle boxShadow values
-cssContent += handleBoxShadow(data.boxShadow);
-
-// Handle borderRadius values
-cssContent += handleBorderRadius(data.borderRadius);
-
-// Handle fontSize values
-cssContent += handleFontSize(data.fontSize);
-
-// Handle height and width
-cssContent += handleDimensions(data.height, 'height');
-cssContent += handleDimensions(data.width, 'width');
-
-// Handle zIndex values
-cssContent += handleZIndex(data.zIndex);
-
-// Handle screens (media queries)
-cssContent += handleScreens(data.screens);
-
-// Handle ring values
-cssContent += handleRing(data.ring);
-
-// Handle transition and animation
-cssContent += handleTransitionsAndAnimations(data.transition, 'transition');
-cssContent += handleTransitionsAndAnimations(data.animation, 'animation');
-
-// Handle margin and padding
-cssContent += '\n' + handleSpacing(data.margin, 'margin');
-cssContent += '\n' + handleSpacing(data.padding, 'padding');
-
-// Write the generated CSS to the output file
 fs.appendFileSync(path.resolve(outputFilePath), cssContent, 'utf8');
 
 console.log(`CSS file generated successfully at ${outputFilePath}`);

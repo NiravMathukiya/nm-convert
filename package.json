@@ -1,6 +1,6 @@
 {
   "name": "nm-convert",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A tool for converting a custom Tailwind-like JSON configuration file into a global CSS file and that is build because of tailwind v4 configurations not have option and the Manual writing configuration is a Time Consuming .",
   "main": "cli.js",
   "bin": {
@@ -18,7 +18,8 @@
     "Nirav-Mathukiya",
     "nirav",
     "mathukiya",
-    "niravmathukiya"
+    "niravmathukiya",
+    "nm-tailwind"
   ],
   "author": "Nirav Mathukiya",
   "license": "MIT",
