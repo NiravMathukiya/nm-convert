@@ -2,6 +2,26 @@
 
 A tool for converting a custom Tailwind-like JSON configuration file into a global CSS file. Built to address the absence of options in Tailwind v4 configurations and the time-consuming process of manually writing configurations.
 
+## Run Directly
+```bash
+npx nm-convert ./inputfilename.json ./outputfileName.css
+```
+
+##
+
+## 📦 Installation (Run Globally)
+
+
+### 1️⃣ Install the Package
+```bash
+npm install -g nm-convert
+```
+### 2️⃣ Run the command with that files Name
+
+```bash
+npx nm-convert ./inputfilename.json ./outputfileName.css
+```
+
 ## 🚀 Features
 
 - ✅ **Automatic generation of utility classes** from a Tailwind-like JSON config
@@ -12,11 +32,9 @@ A tool for converting a custom Tailwind-like JSON configuration file into a glob
 ---
 # Hi, I'm Nirav Mathukiya! 👋
 
-I'm Nirav Mathukiya, a full-stack developer passionate about building web applications with React.js, Node.js, Express, and MongoDB. Currently, I'm working on a real-time chat app using Socket.io for seamless communication. 🚀
+I'm Nirav Mathukiya, a full-stack developer passionate about building web applications with Next.js , React.js, Node.js, Express, and MongoDB. Currently 🚀 
 
-🔹 Tech Stack: React.js | Node.js | Express | MongoDB | Socket.io  
-🔹 Interests: Web Development, APIs, Real-Time Applications  
-🔹 Currently Learning: Advanced React Patterns & WebSockets  
+🔹 Tech Stack: React.js | Node.js | Express | MongoDB | postgreSQL | Next.js 
 
 💡 Always exploring new technologies and working on exciting projects! Let's connect and collaborate.
 
@@ -33,20 +51,11 @@ I'm Nirav Mathukiya, a full-stack developer passionate about building web applic
 - Node.js  
 - Express  
 - MongoDB  
+- postgreSQL
+- Next.js
 
 ---  
 
-## 📦 Installation (Run Locally)
-
-### 1️⃣ Install the Package
-```bash
-npm install -g nm-convert
-```
-### 2️⃣ Run the command with that files Name
-
-```bash
-npx nm-convert ./inputfilename.json ./outputfileName.css
-```
 
 ## 🔗 Links
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nirav-mathukiya007/)
